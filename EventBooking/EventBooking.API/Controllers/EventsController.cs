@@ -1,4 +1,5 @@
-﻿using EventBooking.Application.DTOs;
+﻿using EventBooking.Application.Common;
+using EventBooking.Application.DTOs;
 using EventBooking.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,24 +21,25 @@ namespace EventBooking.API.Controllers
         public async Task<IActionResult> GetAll()
         {
            var result = await _eventService.GetAllEventsAsync();
-           return Ok(result);
+           return Ok(Result<IEnumerable<EventDto>>.SuccessResult(result));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var result = await _eventService.GetEventByIdAsync(id);
-            if (result == null) return NotFound("Event couldn't found");
-            return Ok(result);
+            if (result == null) return NotFound(Result<Guid>.FailureResult(id,"Event couldn't found")); ;
+            return Ok(Result<EventDto>.SuccessResult(result));
         }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateEventDto createEventDto)
         {
-            // FluentValidation otomatik olarak çalışacak (Program.cs ayarı ile)
             var eventId = await _eventService.CreateEventAsync(createEventDto);
 
-            return CreatedAtAction(nameof(GetById), new { id = eventId }, createEventDto);
+            var response = Result<Guid>.SuccessResult(eventId);
+
+            return CreatedAtAction(nameof(GetById), new { id = eventId }, response);
         }
     }
 }

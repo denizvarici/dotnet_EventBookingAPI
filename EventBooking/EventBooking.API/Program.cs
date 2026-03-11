@@ -8,6 +8,8 @@ using Security;
 using FluentValidation;
 using EventBooking.API.Middlewares;
 using EventBooking.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -45,6 +47,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 app.UseHttpsRedirection();
 app.UseAuthorization();

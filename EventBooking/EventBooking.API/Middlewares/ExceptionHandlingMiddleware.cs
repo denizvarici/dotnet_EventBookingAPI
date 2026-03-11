@@ -1,4 +1,5 @@
 ﻿using EventBooking.API.Models;
+using EventBooking.Application.Common;
 using FluentValidation;
 using System.Net;
 using System.Text.Json;
@@ -29,32 +30,28 @@ namespace EventBooking.API.Middlewares
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
-            var response = new ErrorModel { Message = "Bir hata oluştu." };
 
-            switch (exception)
+            var statusCode = exception switch
             {
-                case ValidationException valEx:
-                    context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    response.StatusCode = 400;
-                    response.Message = "Validation error occured.";
-                    response.Errors = valEx.Errors.Select(x => x.ErrorMessage);
-                    break;
+                ValidationException => (int)HttpStatusCode.BadRequest,
+                KeyNotFoundException => (int)HttpStatusCode.NotFound,
+                _ => (int)HttpStatusCode.InternalServerError
+            };
 
-                case KeyNotFoundException:
-                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                    response.StatusCode = 404;
-                    response.Message = "Registry couldn't found.";
-                    break;
+            context.Response.StatusCode = statusCode;
 
-                default:
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    response.StatusCode = 500;
-                    response.Message = exception.Message;
-                    break;
-            }
+            var response = new Result<object>
+            {
+                Success = false,
+                Message = exception is ValidationException ? "Validasyon hatası!" : exception.Message,
+                Errors = exception switch
+                {
+                    ValidationException vex => vex.Errors.Select(e => e.ErrorMessage),
+                    _ => new List<string> { exception.Message }
+                }
+            };
 
-            var result = JsonSerializer.Serialize(response);
-            return context.Response.WriteAsync(result);
+            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
     }
 }
