@@ -53,3 +53,4 @@ CodeCoverage/
 TestResult.xml
 nunit-*.xml
 /EventBooking/.vs
+/EventBooking/Security
