@@ -38,7 +38,10 @@ namespace EventBooking.Application.Services
 
         public async Task<IEnumerable<BookingDto>> GetUserBookingsAsync(Guid userId)
         {
-            var @bookings = await _unitOfWork.Repository<Booking>().Where(b => b.UserId.Equals(userId)).ToListAsync();
+            var bookings = await _unitOfWork.Repository<Booking>()
+                                            .Where(b => b.UserId.Equals(userId))
+                                            .Include(b => b.Event)
+                                            .ToListAsync();
 
             var bookingDtoList = _mapper.Map<IEnumerable<BookingDto>>(@bookings);
 
