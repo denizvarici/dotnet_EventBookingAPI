@@ -7,7 +7,7 @@ namespace EventBooking.Application.Interfaces
 {
     public interface IBookingService
     {
-        Task<Guid> CreateBookingAsync(CreateBookingDto createBookingDto);
+        Task<Guid> CreateBookingAsync(CreateBookingDto createBookingDto,Guid userId);
         Task<IEnumerable<BookingDto>> GetUserBookingsAsync(Guid userId);
     }
 }

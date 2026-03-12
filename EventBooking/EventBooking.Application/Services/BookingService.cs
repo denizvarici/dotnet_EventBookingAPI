@@ -23,11 +23,12 @@ namespace EventBooking.Application.Services
             _validationService = validationService;
         }
 
-        public async Task<Guid> CreateBookingAsync(CreateBookingDto createBookingDto)
+        public async Task<Guid> CreateBookingAsync(CreateBookingDto createBookingDto,Guid userId)
         {
             await _validationService.ValidateAsync(createBookingDto);
             var booking = _mapper.Map<Booking>(createBookingDto);
             booking.BookingDate = DateTime.Now;
+            booking.UserId = userId;
 
             await _unitOfWork.Repository<Booking>().AddAsync(booking);
 

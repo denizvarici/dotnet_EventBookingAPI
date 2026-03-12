@@ -1,5 +1,6 @@
 ﻿using EventBooking.API.Models;
 using EventBooking.Application.Common;
+using EventBooking.Application.Exceptions;
 using FluentValidation;
 using System.Net;
 using System.Text.Json;
@@ -35,6 +36,7 @@ namespace EventBooking.API.Middlewares
             {
                 ValidationException => (int)HttpStatusCode.BadRequest,
                 KeyNotFoundException => (int)HttpStatusCode.NotFound,
+                AuthException => (int)HttpStatusCode.Unauthorized,
                 _ => (int)HttpStatusCode.InternalServerError
             };
 
