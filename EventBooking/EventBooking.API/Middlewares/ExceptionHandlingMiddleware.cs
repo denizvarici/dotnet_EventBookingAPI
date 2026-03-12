@@ -42,7 +42,7 @@ namespace EventBooking.API.Middlewares
 
             var response = new Result<object>
             {
-                Success = false,
+                IsSuccess = false,
                 Message = exception is ValidationException ? "Validasyon hatası!" : exception.Message,
                 Errors = exception switch
                 {

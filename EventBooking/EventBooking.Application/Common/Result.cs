@@ -1,33 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EventBooking.Application.Common
 {
     public class Result<T>
     {
-        public bool Success { get; set; }
+        public bool IsSuccess { get; set; }
         public string Message { get; set; }
-        public T Data { get; set; }
-        public IEnumerable<string> Errors { get; set; }
+        public T? Data { get; set; }
+        public IEnumerable<string>? Errors { get; set; }
 
 
-        //helper method for success
-        public static Result<T> SuccessResult(T data, string message = "Process succeeded.")
-            => new() { Success = true, Data = data, Message = message };
 
-        public static Result<T> FailureResult(T data, string message = "An error occured.")
-        {
-            return new() { Success = false, Data = data, Message = message };
-        }
-        public static Result<T> FailureResult(string error, string message = "An error occured.")
-        {
-            List<string> errors = new();
-            errors.Add(error);
-            return new() { Success = false, Errors = errors, Message = message };
-        }
-        //helper method for failures
-        public static Result<T> FailureResult(IEnumerable<string> errors, string message = "An error occured.")
-            => new() { Success = false, Errors = errors, Message = message };
+        //helper method for success and failure object results
+        public static Result<T> Success(T data, string message = "Process succeeded.")
+            => new() { IsSuccess = true, Data = data, Message = message };
+
+        public static Result<T> Failure(T data,string error)
+            => new() { IsSuccess = false,Data = data, Errors = new List<string> { error }, Message = "An error occurred." };
+
+        public static Result<T> Failure(T data,List<string> errors)
+            => new() { IsSuccess = false,Data = data, Errors = errors, Message = "Multiple errors occurred." };
     }
 }

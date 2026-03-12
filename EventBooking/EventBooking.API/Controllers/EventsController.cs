@@ -21,15 +21,15 @@ namespace EventBooking.API.Controllers
         public async Task<IActionResult> GetAll()
         {
            var result = await _eventService.GetAllEventsAsync();
-           return Ok(Result<IEnumerable<EventDto>>.SuccessResult(result));
+           return Ok(Result<IEnumerable<EventDto>>.Success(result));
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var result = await _eventService.GetEventByIdAsync(id);
-            if (result == null) return NotFound(Result<Guid>.FailureResult(id,"Event couldn't found")); ;
-            return Ok(Result<EventDto>.SuccessResult(result));
+            if (result == null) return NotFound(Result<Guid>.Failure(id,"event not found")); ;
+            return Ok(Result<EventDto>.Success(result));
         }
 
         [HttpPost]
@@ -37,7 +37,7 @@ namespace EventBooking.API.Controllers
         {
             var eventId = await _eventService.CreateEventAsync(createEventDto);
 
-            var response = Result<Guid>.SuccessResult(eventId);
+            var response = Result<Guid>.Success(eventId);
 
             return CreatedAtAction(nameof(GetById), new { id = eventId }, response);
         }
