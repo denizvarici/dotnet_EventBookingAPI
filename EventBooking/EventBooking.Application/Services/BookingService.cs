@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EventBooking.Application.DTOs;
+using EventBooking.Application.Exceptions;
 using EventBooking.Application.Interfaces;
 using EventBooking.Domain.Entities;
 using EventBooking.Domain.Interfaces;
@@ -25,14 +26,37 @@ namespace EventBooking.Application.Services
 
         public async Task<Guid> CreateBookingAsync(CreateBookingDto createBookingDto,Guid userId)
         {
+            //validation
             await _validationService.ValidateAsync(createBookingDto);
+            //event checking
+            var @event = await _unitOfWork.Repository<Event>().GetByIdAsync(createBookingDto.EventId);
+            if (@event == null) throw new KeyNotFoundException("event not found at booking phase");
+
+            //event capacity control
+            if(@event.RemainingCapacity <= 0)
+            {
+                throw new BusinessException("No remaining capacity left for this event.");
+            }
+
+            @event.RemainingCapacity--;
+            _unitOfWork.Repository<Event>().Update(@event);
+
+            //make booking
             var booking = _mapper.Map<Booking>(createBookingDto);
             booking.BookingDate = DateTime.Now;
             booking.UserId = userId;
 
             await _unitOfWork.Repository<Booking>().AddAsync(booking);
 
-            await _unitOfWork.SaveChangesAsync();
+            try
+            {
+                await _unitOfWork.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new BusinessException("Başka bir kullanıcı sizden önce bilet aldığı için işlem başarısız oldu. Lütfen tekrar deneyin.");
+            }
+
             return booking.Id;
         }
 

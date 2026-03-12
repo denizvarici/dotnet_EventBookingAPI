@@ -14,5 +14,7 @@ namespace EventBooking.Domain.Entities
         public DateTime BookingDate { get; set; }
         public bool IsCancelled { get; set; }
 
+
+        
     }
 }

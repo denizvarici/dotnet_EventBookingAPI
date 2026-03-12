@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260312091934_SeedRoles")]
-    partial class SeedRoles
+    [Migration("20260312111428_SeedEvents")]
+    partial class SeedEvents
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,6 +145,12 @@ namespace EventBooking.Infrastructure.Migrations
                     b.Property<int>("RemainingCapacity")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -152,6 +158,38 @@ namespace EventBooking.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Events");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("445368c7-23a4-4a8e-9549-9a0e3c62985d"),
+                            Capacity = 50,
+                            Date = new DateTime(2026, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "BJK - GS",
+                            Location = "Istanbul/Stadyum",
+                            RemainingCapacity = 50,
+                            Title = "Futbol Maci"
+                        },
+                        new
+                        {
+                            Id = new Guid("445368c7-23a4-4a8e-9549-9a0e3c62985e"),
+                            Capacity = 5,
+                            Date = new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Lüx araclarin bulustugu fuar",
+                            Location = "Istanbul/Tuyap",
+                            RemainingCapacity = 5,
+                            Title = "Araba Fuari"
+                        },
+                        new
+                        {
+                            Id = new Guid("445368c7-23a4-4a8e-9549-9a0e3c629852"),
+                            Capacity = 3,
+                            Date = new DateTime(2027, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Mezun olan muhendislik fakultesi ogrencileri icin kutlama",
+                            Location = "Tekirdag/Muh Fakultesi",
+                            RemainingCapacity = 3,
+                            Title = "Tekirdag Namik Kemal Muhendisleri Mezuniyet Toreni"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

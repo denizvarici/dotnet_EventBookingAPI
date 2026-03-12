@@ -15,5 +15,8 @@ namespace EventBooking.Domain.Entities
         public int RemainingCapacity { get; set; }
 
         public ICollection<Booking> Bookings { get; set; }
+
+
+        public byte[] RowVersion { get; set; }
     }
 }

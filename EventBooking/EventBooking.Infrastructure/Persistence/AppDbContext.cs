@@ -19,8 +19,8 @@ namespace EventBooking.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            //builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
-            builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            //builder.ApplyConfiguration(new RoleConfiguration());
         }
     }
 }

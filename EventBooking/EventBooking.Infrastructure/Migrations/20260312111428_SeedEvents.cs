@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EventBooking.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedRoles : Migration
+    public partial class SeedEvents : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,7 +63,8 @@ namespace EventBooking.Infrastructure.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Capacity = table.Column<int>(type: "int", nullable: false),
-                    RemainingCapacity = table.Column<int>(type: "int", nullable: false)
+                    RemainingCapacity = table.Column<int>(type: "int", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -210,6 +211,16 @@ namespace EventBooking.Infrastructure.Migrations
                 {
                     { new Guid("149da092-2376-4f23-ad15-e1a7d1875151"), "7b5c69e6-f38f-4464-8a5e-c70bab6a3428", "User", "USER" },
                     { new Guid("446368c7-23a4-4a8e-9549-9a0e3c62985d"), "9b35f620-f686-42ab-8c92-073c38511dec", "Admin", "ADMIN" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Events",
+                columns: new[] { "Id", "Capacity", "Date", "Description", "Location", "RemainingCapacity", "Title" },
+                values: new object[,]
+                {
+                    { new Guid("445368c7-23a4-4a8e-9549-9a0e3c629852"), 3, new DateTime(2027, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mezun olan muhendislik fakultesi ogrencileri icin kutlama", "Tekirdag/Muh Fakultesi", 3, "Tekirdag Namik Kemal Muhendisleri Mezuniyet Toreni" },
+                    { new Guid("445368c7-23a4-4a8e-9549-9a0e3c62985d"), 50, new DateTime(2026, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "BJK - GS", "Istanbul/Stadyum", 50, "Futbol Maci" },
+                    { new Guid("445368c7-23a4-4a8e-9549-9a0e3c62985e"), 5, new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lüx araclarin bulustugu fuar", "Istanbul/Tuyap", 5, "Araba Fuari" }
                 });
 
             migrationBuilder.CreateIndex(

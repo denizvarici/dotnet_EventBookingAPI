@@ -15,6 +15,7 @@ namespace EventBooking.Infrastructure.Extensions
                 try
                 {
                     await DefaultAdminUserConfiguration.SeedAsync(services);
+                    await DefaultNormalUserConfiguration.SeedAsync(services);
                 }
                 catch (Exception ex)
                 {

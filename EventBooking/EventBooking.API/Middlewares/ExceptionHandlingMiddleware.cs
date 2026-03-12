@@ -2,6 +2,7 @@
 using EventBooking.Application.Common;
 using EventBooking.Application.Exceptions;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text.Json;
 
@@ -35,8 +36,10 @@ namespace EventBooking.API.Middlewares
             var statusCode = exception switch
             {
                 ValidationException => (int)HttpStatusCode.BadRequest,
+                DbUpdateConcurrencyException => (int)HttpStatusCode.Conflict,
                 KeyNotFoundException => (int)HttpStatusCode.NotFound,
                 AuthException => (int)HttpStatusCode.Unauthorized,
+                BusinessException => (int)HttpStatusCode.BadRequest,
                 _ => (int)HttpStatusCode.InternalServerError
             };
 
