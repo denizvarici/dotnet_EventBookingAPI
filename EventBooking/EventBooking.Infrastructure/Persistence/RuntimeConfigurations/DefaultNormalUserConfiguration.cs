@@ -32,6 +32,26 @@ namespace EventBooking.Infrastructure.Persistence.RuntimeConfigurations
                     await userManager.AddToRoleAsync(newUser, "User");
                 }
             }
+
+            var userEmail2 = "user2@user.com";
+            var userUser2 = await userManager.FindByEmailAsync(userEmail2);
+
+            if (userUser2 == null)
+            {
+                var newUser2 = new AppUser
+                {
+                    UserName = userEmail2,
+                    Email = userEmail2,
+                    FullName = "Classic User 2",
+                };
+
+                var result2 = await userManager.CreateAsync(newUser2, "User123!");
+
+                if (result2.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(newUser2, "User");
+                }
+            }
         }
     }
 }

@@ -45,6 +45,16 @@ namespace EventBooking.Infrastructure.Persistence.Configurations
                     Capacity = 3,
                     RemainingCapacity = 3,
                     Location = "Tekirdag/Muh Fakultesi"
+                },
+                new Event()
+                {
+                    Id = Guid.Parse("425368C7-23A4-4A8E-9549-9A0E3C629852"),
+                    Title = "Concurrency Test Event",
+                    Description = "Concurrency Test Event",
+                    Date = new DateTime(2027, 3, 10),
+                    Capacity = 1,
+                    RemainingCapacity = 1,
+                    Location = "Test"
                 }
                 );
         }

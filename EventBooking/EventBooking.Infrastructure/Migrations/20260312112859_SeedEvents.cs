@@ -218,6 +218,7 @@ namespace EventBooking.Infrastructure.Migrations
                 columns: new[] { "Id", "Capacity", "Date", "Description", "Location", "RemainingCapacity", "Title" },
                 values: new object[,]
                 {
+                    { new Guid("425368c7-23a4-4a8e-9549-9a0e3c629852"), 1, new DateTime(2027, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Concurrency Test Event", "Test", 1, "Concurrency Test Event" },
                     { new Guid("445368c7-23a4-4a8e-9549-9a0e3c629852"), 3, new DateTime(2027, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mezun olan muhendislik fakultesi ogrencileri icin kutlama", "Tekirdag/Muh Fakultesi", 3, "Tekirdag Namik Kemal Muhendisleri Mezuniyet Toreni" },
                     { new Guid("445368c7-23a4-4a8e-9549-9a0e3c62985d"), 50, new DateTime(2026, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "BJK - GS", "Istanbul/Stadyum", 50, "Futbol Maci" },
                     { new Guid("445368c7-23a4-4a8e-9549-9a0e3c62985e"), 5, new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Lüx araclarin bulustugu fuar", "Istanbul/Tuyap", 5, "Araba Fuari" }

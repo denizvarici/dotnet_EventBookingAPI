@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260312111428_SeedEvents")]
+    [Migration("20260312112859_SeedEvents")]
     partial class SeedEvents
     {
         /// <inheritdoc />
@@ -189,6 +189,16 @@ namespace EventBooking.Infrastructure.Migrations
                             Location = "Tekirdag/Muh Fakultesi",
                             RemainingCapacity = 3,
                             Title = "Tekirdag Namik Kemal Muhendisleri Mezuniyet Toreni"
+                        },
+                        new
+                        {
+                            Id = new Guid("425368c7-23a4-4a8e-9549-9a0e3c629852"),
+                            Capacity = 1,
+                            Date = new DateTime(2027, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Concurrency Test Event",
+                            Location = "Test",
+                            RemainingCapacity = 1,
+                            Title = "Concurrency Test Event"
                         });
                 });
 
