@@ -1,4 +1,5 @@
 ﻿using EventBooking.Domain.Entities;
+using EventBooking.Infrastructure.Persistence.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,8 +19,8 @@ namespace EventBooking.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-
+            //builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            builder.ApplyConfiguration(new RoleConfiguration());
         }
     }
 }

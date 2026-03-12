@@ -11,8 +11,14 @@ namespace EventBooking.Application.Mappings
     {
         public GeneralMapping()
         {
+            //Event
             CreateMap<Event, EventDto>().ReverseMap();
             CreateMap<Event, CreateEventDto>().ReverseMap();
+
+            //Booking
+            CreateMap<Booking, BookingDto>()
+            .ForMember(dest => dest.EventTitle, opt => opt.MapFrom(src => src.Event.Title));
+            CreateMap<CreateBookingDto, Booking>();
         }
     }
 }

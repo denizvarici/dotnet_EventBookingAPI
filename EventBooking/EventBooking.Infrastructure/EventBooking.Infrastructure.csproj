@@ -17,7 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EventBooking.Application\EventBooking.Application.csproj" />
     <ProjectReference Include="..\EventBooking.Domain\EventBooking.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Seed\" />
   </ItemGroup>
 
 </Project>

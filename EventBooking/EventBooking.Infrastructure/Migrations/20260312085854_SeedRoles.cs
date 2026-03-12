@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace EventBooking.Infrastructure.Persistence.Migrations
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace EventBooking.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class SeedRoles : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -199,6 +201,15 @@ namespace EventBooking.Infrastructure.Persistence.Migrations
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { new Guid("149da092-2376-4f23-ad15-e1a7d1875151"), "7b5c69e6-f38f-4464-8a5e-c70bab6a3428", "User", "USER" },
+                    { new Guid("446368c7-23a4-4a8e-9549-9a0e3c62985d"), "9b35f620-f686-42ab-8c92-073c38511dec", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

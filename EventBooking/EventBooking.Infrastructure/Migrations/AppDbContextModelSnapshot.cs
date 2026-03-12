@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EventBooking.Infrastructure.Persistence.Migrations
+namespace EventBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -177,6 +177,22 @@ namespace EventBooking.Infrastructure.Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("446368c7-23a4-4a8e-9549-9a0e3c62985d"),
+                            ConcurrencyStamp = "9b35f620-f686-42ab-8c92-073c38511dec",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = new Guid("149da092-2376-4f23-ad15-e1a7d1875151"),
+                            ConcurrencyStamp = "7b5c69e6-f38f-4464-8a5e-c70bab6a3428",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
