@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260312085854_SeedRoles")]
+    [Migration("20260312091934_SeedRoles")]
     partial class SeedRoles
     {
         /// <inheritdoc />

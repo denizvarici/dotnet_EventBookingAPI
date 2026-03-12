@@ -17,6 +17,7 @@ using Scalar.AspNetCore;
 using Security;
 using System.Text;
 using EventBooking.API.Transformers;
+using EventBooking.Infrastructure.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
@@ -74,6 +75,9 @@ builder.Services.AddOpenApi(options =>
 var app = builder.Build();
 //middlewares
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+//runtime seeds
+await app.SeedIdentityDataAsync(); //seeds default users on startup
 
 
 if (app.Environment.IsDevelopment())
