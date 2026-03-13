@@ -14,12 +14,14 @@ namespace EventBooking.Application.Services
         private readonly ICacheService _cacheService;
         private readonly IMapper _mapper;
         private readonly IValidationService _validationService;
-        public BookingService(IUnitOfWork unitOfWork, IMapper mapper, IValidationService validationService, ICacheService cacheService)
+        private readonly IEMailService _emailService;
+        public BookingService(IUnitOfWork unitOfWork, IMapper mapper, IValidationService validationService, ICacheService cacheService, IEMailService emailService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _validationService = validationService;
             _cacheService = cacheService;
+            _emailService = emailService;
         }
         public async Task<Guid> CreateBookingAsync(CreateBookingDto createBookingDto,Guid userId)
         {
@@ -65,6 +67,12 @@ namespace EventBooking.Application.Services
             //remove cache
             await _cacheService.RemoveAsync("all_events");
 
+            var user = await _unitOfWork.Repository<AppUser>().GetByIdAsync(userId);
+
+            await _emailService.SendEmailAync(
+                user!.Email!,
+                "Rezervasyon Onayı",
+                $"Sayın kullanıcımız, <b>{@event.Title}</b> etkinliği için rezervasyon işleminiz tamamlandı!");
             return booking.Id;
         }
         public async Task<IEnumerable<BookingDto>> GetUserBookingsAsync(Guid userId)

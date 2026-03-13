@@ -101,7 +101,12 @@ builder.Services.AddStackExchangeRedisCache(options =>
 });
 //background worker registry
 builder.Services.AddHostedService<EventStatusWorker>();
+//email configuration
+builder.Services
+    .AddFluentEmail("noreply@eventbooking.com")
+    .AddSmtpSender("sandbox.smtp.mailtrap.io", 2525, DataHolder.MailTrapUsername, DataHolder.MailTrapPassword);
 
+builder.Services.AddScoped<IEMailService, EmailService>();
 
 var app = builder.Build();
 //middlewares
