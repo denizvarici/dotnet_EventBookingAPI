@@ -36,9 +36,21 @@ builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IValidationService, ValidationService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-//caching DI (InMemory)
-builder.Services.AddMemoryCache();
-builder.Services.AddScoped<ICacheService, InMemoryCacheService>();
+//caching DI
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = "localhost:6379";
+        options.InstanceName = "EventBooking_";
+    });
+    builder.Services.AddScoped<ICacheService, RedisCacheService>();
+}
+else
+{
+    builder.Services.AddMemoryCache();
+    builder.Services.AddScoped<ICacheService, InMemoryCacheService>();
+}
 
 //caching DI (Redis)
 
