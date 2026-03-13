@@ -4,19 +4,16 @@ using EventBooking.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace EventBooking.Infrastructure.Persistence.Migrations
+namespace EventBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260313090910_AddSoftDeleteAndCancellation")]
-    partial class AddSoftDeleteAndCancellation
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,6 +135,9 @@ namespace EventBooking.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -158,48 +158,6 @@ namespace EventBooking.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Events");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("445368c7-23a4-4a8e-9549-9a0e3c62985d"),
-                            Capacity = 50,
-                            Date = new DateTime(2026, 8, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "BJK - GS",
-                            Location = "Istanbul/Stadyum",
-                            RemainingCapacity = 50,
-                            Title = "Futbol Maci"
-                        },
-                        new
-                        {
-                            Id = new Guid("445368c7-23a4-4a8e-9549-9a0e3c62985e"),
-                            Capacity = 5,
-                            Date = new DateTime(2026, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Lüx araclarin bulustugu fuar",
-                            Location = "Istanbul/Tuyap",
-                            RemainingCapacity = 5,
-                            Title = "Araba Fuari"
-                        },
-                        new
-                        {
-                            Id = new Guid("445368c7-23a4-4a8e-9549-9a0e3c629852"),
-                            Capacity = 3,
-                            Date = new DateTime(2027, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Mezun olan muhendislik fakultesi ogrencileri icin kutlama",
-                            Location = "Tekirdag/Muh Fakultesi",
-                            RemainingCapacity = 3,
-                            Title = "Tekirdag Namik Kemal Muhendisleri Mezuniyet Toreni"
-                        },
-                        new
-                        {
-                            Id = new Guid("425368c7-23a4-4a8e-9549-9a0e3c629852"),
-                            Capacity = 1,
-                            Date = new DateTime(2027, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Concurrency Test Event",
-                            Location = "Test",
-                            RemainingCapacity = 1,
-                            Title = "Concurrency Test Event"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

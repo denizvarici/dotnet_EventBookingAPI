@@ -13,5 +13,6 @@ namespace EventBooking.Application.DTOs
         public string Location { get; set; }
         public int Capacity { get; set; }
         public int RemainingCapacity { get; set; }
+        public bool IsActive { get; set; }
     }
 }

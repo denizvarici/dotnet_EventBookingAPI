@@ -13,6 +13,7 @@ namespace EventBooking.Domain.Entities
         public string Location { get; set; }
         public int Capacity { get; set; }
         public int RemainingCapacity { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public ICollection<Booking> Bookings { get; set; }
 

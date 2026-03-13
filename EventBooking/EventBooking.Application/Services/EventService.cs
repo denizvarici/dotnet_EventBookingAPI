@@ -43,6 +43,8 @@ namespace EventBooking.Application.Services
             return @event.Id;
         }
 
+        
+
         public async Task<IEnumerable<EventDto>> GetAllEventsAsync()
         {
             //look cache first

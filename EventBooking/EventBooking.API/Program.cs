@@ -1,13 +1,17 @@
 using EventBooking.API.Middlewares;
+using EventBooking.API.Transformers;
 using EventBooking.Application.Interfaces;
 using EventBooking.Application.Mappings;
 using EventBooking.Application.Services;
 using EventBooking.Application.Validators;
 using EventBooking.Domain.Entities;
 using EventBooking.Domain.Interfaces;
+using EventBooking.Infrastructure.BackgroundServices;
+using EventBooking.Infrastructure.Extensions;
 using EventBooking.Infrastructure.Identity;
 using EventBooking.Infrastructure.Persistence;
 using EventBooking.Infrastructure.Repositories;
+using EventBooking.Infrastructure.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -16,9 +20,6 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using Security;
 using System.Text;
-using EventBooking.API.Transformers;
-using EventBooking.Infrastructure.Extensions;
-using EventBooking.Infrastructure.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
@@ -98,6 +99,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
     options.InstanceName = "EventBooking_";
 });
+//background worker registry
+builder.Services.AddHostedService<EventStatusWorker>();
 
 
 var app = builder.Build();
