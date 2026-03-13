@@ -18,6 +18,7 @@ using Security;
 using System.Text;
 using EventBooking.API.Transformers;
 using EventBooking.Infrastructure.Extensions;
+using EventBooking.Infrastructure.Services;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
@@ -34,6 +35,13 @@ builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IValidationService, ValidationService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+//caching DI (InMemory)
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<ICacheService, InMemoryCacheService>();
+
+//caching DI (Redis)
+
 
 //Libraries DI
 builder.Services.AddAutoMapper(cfg =>
@@ -72,6 +80,13 @@ builder.Services.AddOpenApi(options =>
 {
     options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
 });
+//redis configuration
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    options.InstanceName = "EventBooking_";
+});
+
 
 var app = builder.Build();
 //middlewares

@@ -5,23 +5,21 @@ using EventBooking.Application.Interfaces;
 using EventBooking.Domain.Entities;
 using EventBooking.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
 
 namespace EventBooking.Application.Services
 {
     public class BookingService : IBookingService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ICacheService _cacheService;
         private readonly IMapper _mapper;
         private readonly IValidationService _validationService;
-        public BookingService(IUnitOfWork unitOfWork, IMapper mapper, IValidationService validationService)
+        public BookingService(IUnitOfWork unitOfWork, IMapper mapper, IValidationService validationService, ICacheService cacheService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _validationService = validationService;
+            _cacheService = cacheService;
         }
         public async Task<Guid> CreateBookingAsync(CreateBookingDto createBookingDto,Guid userId)
         {
@@ -64,6 +62,9 @@ namespace EventBooking.Application.Services
                 throw new BusinessException("Başka bir kullanıcı sizden önce bilet aldığı için işlem başarısız oldu. Lütfen tekrar deneyin.");
             }
 
+            //remove cache
+            await _cacheService.RemoveAsync("all_events");
+
             return booking.Id;
         }
         public async Task<IEnumerable<BookingDto>> GetUserBookingsAsync(Guid userId)
@@ -101,7 +102,7 @@ namespace EventBooking.Application.Services
             {
                 await _unitOfWork.SaveChangesAsync();
             }
-            catch (DBConcurrencyException)
+            catch (DbUpdateConcurrencyException)
             {
                 throw new BusinessException("System is too busy for now. Please try again later to cancel your reservation");
             }
