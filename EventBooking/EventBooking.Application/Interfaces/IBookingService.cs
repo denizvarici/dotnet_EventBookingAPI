@@ -9,5 +9,6 @@ namespace EventBooking.Application.Interfaces
     {
         Task<Guid> CreateBookingAsync(CreateBookingDto createBookingDto,Guid userId);
         Task<IEnumerable<BookingDto>> GetUserBookingsAsync(Guid userId);
+        Task CancelBookingAsync(Guid bookingId, Guid userId);
     }
 }

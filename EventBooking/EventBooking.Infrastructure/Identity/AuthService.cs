@@ -58,12 +58,12 @@ namespace EventBooking.Infrastructure.Identity
                 return new AuthResponseDto(false, "", "Invalid Credintials..");
             }
 
-            var token = GenerateToken(user);
+            var token = await GenerateToken(user);
 
             return new AuthResponseDto(true, token, "Login succeded");
         }
 
-        private string GenerateToken(AppUser user)
+        private async Task<string> GenerateToken(AppUser user)
         {
             var jwtSettings = _configuration.GetSection("JwtSettings");
             var secretKey = Encoding.ASCII.GetBytes(jwtSettings["SecretKey"]!);
@@ -74,6 +74,12 @@ namespace EventBooking.Infrastructure.Identity
                 new Claim(ClaimTypes.Email,user.Email!),
                 new Claim("FullName",user.FullName),
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role,role));
+            }
 
             var tokenDescriptor = new SecurityTokenDescriptor()
             {

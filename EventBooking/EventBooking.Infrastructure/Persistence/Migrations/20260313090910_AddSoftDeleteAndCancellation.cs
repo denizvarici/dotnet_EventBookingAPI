@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace EventBooking.Infrastructure.Migrations
+namespace EventBooking.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class SeedEvents : Migration
+    public partial class AddSoftDeleteAndCancellation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

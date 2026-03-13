@@ -1,6 +1,7 @@
 ﻿using EventBooking.Application.Common;
 using EventBooking.Application.DTOs;
 using EventBooking.Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +33,7 @@ namespace EventBooking.API.Controllers
             return Ok(Result<EventDto>.Success(result));
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateEventDto createEventDto)
         {

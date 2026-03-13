@@ -43,5 +43,12 @@ namespace EventBooking.API.Controllers
 
             return CreatedAtAction(nameof(GetByUserId), new { userId = CurrentUserId }, response);
         }
+
+        [HttpPut("{id}/cancel")]
+        public async Task<IActionResult> Cancel(Guid id)
+        {
+            await _bookingService.CancelBookingAsync(id, CurrentUserId);
+            return Ok(Result<string>.Success("Your booking is cancelled successfully."));
+        }
     }
 }
